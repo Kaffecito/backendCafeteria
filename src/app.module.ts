@@ -7,6 +7,11 @@ import { ProductosModule } from './productos/productos.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { PedidosModule } from './pedidos/pedidos.module';
 import { AuthModule } from './auth/auth.module';
+import { ClientesModule } from './clientes/clientes.module';
+import { DetallePedidoModule } from './detalle-pedido/detalle-pedido.module';
+import { PagosModule } from './pagos/pagos.module';
+import { BilletesPagoModule } from './billetes-pago/billetes-pago.module';
+import { ReportesModule } from './reportes/reportes.module';
 
 @Module({
   imports: [
@@ -25,6 +30,11 @@ import { AuthModule } from './auth/auth.module';
     CategoriasModule,
     PedidosModule,
     AuthModule,
+    ClientesModule,
+    DetallePedidoModule,
+    PagosModule,
+    BilletesPagoModule,
+    ReportesModule,
   ],
 })
 export class AppModule {}

@@ -22,7 +22,7 @@ export class Usuario {
   tipo_sangre_usuario: string;
 
   @Column()
-  rol_usuario: string; // 'admin' o 'mesero'
+  rol_usuario: string; 
 
   @Column()
   password_usuario: string;
