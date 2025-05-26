@@ -24,4 +24,7 @@ export class Producto {
 
   @Column({ default: true })
   estado_producto: boolean;
+
+  @Column({ nullable: true })
+imagen_url: string;
 }

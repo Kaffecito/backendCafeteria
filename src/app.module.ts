@@ -23,7 +23,7 @@ import { ReportesModule } from './reportes/reportes.module';
       password: '',
       database: 'cafeteria',
       autoLoadEntities: true,
-      synchronize: true, // ❗ Solo en desarrollo
+      synchronize: true, 
     }),
     UsuariosModule,
     ProductosModule,
