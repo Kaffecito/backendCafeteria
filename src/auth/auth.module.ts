@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { UsuariosModule } from '../usuarios/usuarios.module';  // Importa UsuariosModule
+import { UsuariosModule } from '../usuarios/usuarios.module';  
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module';  // Importa Usuari
       secret: 'kaffecito', 
       signOptions: { expiresIn: '1h' },
     }),
-    UsuariosModule,  // Asegúrate de importar UsuariosModule
+    UsuariosModule,  
   ],
   providers: [AuthService],
   controllers: [AuthController],

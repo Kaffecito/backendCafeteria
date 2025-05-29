@@ -19,7 +19,7 @@ import { Producto } from './producto.entity';
 @Controller('productos')
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
-
+//proceso crud del modulo productos
   @Get()
   getAll() {
     return this.productosService.findAll();

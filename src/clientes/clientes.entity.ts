@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('clientes')
 export class Cliente {
+  //campos de las tabla clientes
   @PrimaryGeneratedColumn()
   id_cliente: number;
 

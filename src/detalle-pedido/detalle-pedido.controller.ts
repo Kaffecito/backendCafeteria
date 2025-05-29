@@ -6,7 +6,7 @@ import { DetallePedido } from './detalle-pedido.entity';
 @Controller('detalle-pedido')
 export class DetallePedidoController {
   constructor(private readonly detalleService: DetallePedidoService) {}
-
+//todo el proceso crud de detalle-pedido
   @Post()
   crear(@Body() detalle: Partial<DetallePedido>) {
     return this.detalleService.crear(detalle);

@@ -6,6 +6,7 @@ import { Producto } from './producto.entity';
 @Injectable()
 export class ProductosService {
   constructor(
+    //logica de negocio para evitar errores
     @InjectRepository(Producto)
     private productosRepository: Repository<Producto>,
   ) {}

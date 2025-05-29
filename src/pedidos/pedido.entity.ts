@@ -5,6 +5,7 @@ import { Usuario } from 'src/usuarios/usuario.entity';
 
 @Entity('pedidos')
 export class Pedido {
+  //tablas y relacion con otras tablas muchos a uno
   @PrimaryGeneratedColumn()
   id_pedido: number;
 

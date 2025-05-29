@@ -7,6 +7,7 @@ import { Pago } from './pagos.entity';
 @Injectable()
 export class PagoService {
   constructor(
+    //seteo de datos por datos enteros a decimal o decimal a entero
     @InjectRepository(Pago)
     private pagoRepo: Repository<Pago>,
   ) {}

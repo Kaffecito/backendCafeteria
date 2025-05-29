@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('detalle_pedido')
 export class DetallePedido {
+  //creacion de tabla detalle-pedido
   @PrimaryGeneratedColumn()
   id_detalle: number;
 

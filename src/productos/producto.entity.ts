@@ -6,6 +6,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class Producto {
   @PrimaryGeneratedColumn()
   id_producto: number;
+  //relacion de la tabla producto con categorias
 
   @Column()
   nombre_producto: string;

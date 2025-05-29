@@ -10,6 +10,8 @@ export class ClientesService {
     private clienteRepo: Repository<Cliente>,
   ) {}
 
+  //logica para poder ver los clientes y todo tipo de seteo de datos
+
   async crear(cliente: Partial<Cliente>) {
     return this.clienteRepo.save(cliente);
   }

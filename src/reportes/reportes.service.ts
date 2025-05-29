@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 
 
 @Injectable()
+//logica para sacar reportes necesarios sobre las ventas 
 export class ReportesService {
   constructor(
     @InjectRepository(Pedido)

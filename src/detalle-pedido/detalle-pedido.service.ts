@@ -5,6 +5,7 @@ import { DetallePedido } from './detalle-pedido.entity';
 
 
 @Injectable()
+//logica de seteo de datos para listar o quizas realizar otra opcion
 export class DetallePedidoService {
   constructor(
     @InjectRepository(DetallePedido)

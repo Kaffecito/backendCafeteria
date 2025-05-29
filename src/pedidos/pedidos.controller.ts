@@ -4,6 +4,7 @@ import { PedidosService } from './pedidos.service';
 import { Pedido } from './pedido.entity';
 
 @Controller('pedidos')
+//todo el proceso crud sobre pedidos
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 

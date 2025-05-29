@@ -7,6 +7,7 @@ import { Pedido } from './pedido.entity';
 @Injectable()
 export class PedidosService {
   constructor(
+    //logica de  negocio para evitar el tipeo mal de los datos que se ingrese
     @InjectRepository(Pedido)
     private pedidosRepository: Repository<Pedido>,
   ) {}

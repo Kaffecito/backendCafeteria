@@ -3,6 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity('pagos')
 export class Pago {
   @PrimaryGeneratedColumn()
+  //datos para la tabla pagos
   id_pago: number;
 
   @Column()

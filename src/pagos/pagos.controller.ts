@@ -6,7 +6,7 @@ import { Pago } from './pagos.entity';
 @Controller('pagos')
 export class PagoController {
   constructor(private readonly pagoService: PagoService) {}
-
+//proceso CRUD para realizar los pagos 
   @Post()
   crear(@Body() pago: Partial<Pago>) {
     return this.pagoService.crear(pago);

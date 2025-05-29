@@ -6,7 +6,7 @@ import { Categoria } from './categoria.entity';
 @Controller('categorias')
 export class CategoriasController {
   constructor(private readonly categoriasService: CategoriasService) {}
-
+//proceso crud del modulo categorias obtener, eliminar,buscar ,actualizar
   @Get()
   getAll() {
     return this.categoriasService.findAll();

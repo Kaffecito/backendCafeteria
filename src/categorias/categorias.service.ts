@@ -7,6 +7,7 @@ import { Categoria } from './categoria.entity';
 @Injectable()
 export class CategoriasService {
   constructor(
+    //logica de negocio y transformaciones de datos para el envio hacia la BD
     @InjectRepository(Categoria)
     private categoriasRepository: Repository<Categoria>,
   ) {}
