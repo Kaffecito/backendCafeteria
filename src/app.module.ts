@@ -1,20 +1,21 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { AuthModule } from './auth/auth.module';
 import { ProductosModule } from './productos/productos.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { PedidosModule } from './pedidos/pedidos.module';
-import { AuthModule } from './auth/auth.module';
-import { ClientesModule } from './clientes/clientes.module';
 import { DetallePedidoModule } from './detalle-pedido/detalle-pedido.module';
 import { PagosModule } from './pagos/pagos.module';
-import { BilletesPagoModule } from './billetes-pago/billetes-pago.module';
 import { ReportesModule } from './reportes/reportes.module';
+import { ClientesModule } from './clientes/clientes.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -22,19 +23,21 @@ import { ReportesModule } from './reportes/reportes.module';
       username: 'root',
       password: '',
       database: 'cafeteria',
-      autoLoadEntities: true,
-      synchronize: true, 
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+      logging: true,
     }),
     UsuariosModule,
+    AuthModule,
     ProductosModule,
     CategoriasModule,
     PedidosModule,
-    AuthModule,
-    ClientesModule,
     DetallePedidoModule,
     PagosModule,
-    BilletesPagoModule,
     ReportesModule,
+    ClientesModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

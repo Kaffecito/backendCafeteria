@@ -13,6 +13,10 @@ export class ClientesService {
   //logica para poder ver los clientes y todo tipo de seteo de datos
 
   async crear(cliente: Partial<Cliente>) {
+    // Si no se proporciona tipo_cliente, establecer como 'final'
+    if (!cliente.tipo_cliente) {
+      cliente.tipo_cliente = 'final';
+    }
     return this.clienteRepo.save(cliente);
   }
 
@@ -22,6 +26,12 @@ export class ClientesService {
 
   async buscarPorId(id: number) {
     return this.clienteRepo.findOneBy({ id_cliente: id });
+  }
+
+  async buscarPorCedula(cedula: string) {
+    return this.clienteRepo.findOne({
+      where: { cedula_cliente: cedula }
+    });
   }
 
   async actualizar(id: number, datos: Partial<Cliente>) {

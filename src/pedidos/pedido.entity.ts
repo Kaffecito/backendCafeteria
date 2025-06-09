@@ -1,26 +1,54 @@
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, CreateDateColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsNumber, IsNotEmpty } from 'class-validator';
+import { Usuario } from '../usuarios/usuario.entity';
+import { DetallePedido } from '../detalle-pedido/detalle-pedido.entity';
 
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Producto } from '../productos/producto.entity';
-import { Usuario } from 'src/usuarios/usuario.entity';
+export enum EstadoPedido {
+  PENDIENTE = 'pendiente',
+  EN_PROCESO = 'en_proceso',
+  COMPLETADO = 'completado',
+  CANCELADO = 'cancelado'
+}
 
 @Entity('pedidos')
 export class Pedido {
-  //tablas y relacion con otras tablas muchos a uno
+  @ApiProperty({ description: 'ID único del pedido' })
   @PrimaryGeneratedColumn()
   id_pedido: number;
 
-  @ManyToOne(() => Usuario, usuario => usuario.id_usuario)
-  usuario_id: Usuario;
+  @ApiProperty({ description: 'ID del usuario que realiza el pedido' })
+  @Column()
+  @IsNumber()
+  @IsNotEmpty()
+  id_usuario: number;
 
-  @ManyToOne(() => Producto, producto => producto.id_producto)
-  producto_id: Producto;
+  @ApiProperty({ description: 'Fecha y hora del pedido' })
+  @CreateDateColumn()
+  fecha_pedido: Date;
 
-  @Column('decimal')
-  cantidad_pedido: number;
+  @ApiProperty({ description: 'Estado del pedido', enum: EstadoPedido })
+  @Column({
+    type: 'enum',
+    enum: EstadoPedido,
+    default: EstadoPedido.PENDIENTE
+  })
+  @IsEnum(EstadoPedido)
+  estado_pedido: EstadoPedido;
 
-  @Column('decimal')
+  @ApiProperty({ description: 'Total del pedido' })
+  @Column('decimal', { precision: 10, scale: 2 })
+  @IsNumber()
   total_pedido: number;
 
-  @Column({ default: 'pendiente' })
-  estado_pedido: string;
+  @ApiProperty({ description: 'Notas adicionales del pedido', required: false })
+  @Column({ nullable: true })
+  notas_pedido?: string;
+
+  @ManyToOne(() => Usuario)
+  @JoinColumn({ name: 'id_usuario' })
+  usuario: Usuario;
+
+  @OneToMany(() => DetallePedido, detallePedido => detallePedido.pedido)
+  detalles_pedido: DetallePedido[];
 }
