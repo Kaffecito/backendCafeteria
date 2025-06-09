@@ -1,33 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DetallePedido } from './detalle-pedido.entity';
-
+import { CreateDetallePedidoDto } from './dto/create-detalle-pedido.dto';
+import { ProductosService } from '../productos/productos.service';
 
 @Injectable()
 export class DetallePedidoService {
   constructor(
     @InjectRepository(DetallePedido)
-    private detalleRepo: Repository<DetallePedido>,
+    private readonly detallePedidoRepository: Repository<DetallePedido>,
+    private readonly productosService: ProductosService,
   ) {}
 
-  crear(detalle: Partial<DetallePedido>) {
-    return this.detalleRepo.save(detalle);
+  async create(createDetallePedidoDto: CreateDetallePedidoDto): Promise<DetallePedido> {
+    const producto = await this.productosService.findOne(createDetallePedidoDto.id_producto);
+    
+    const detallePedido = this.detallePedidoRepository.create({
+      ...createDetallePedidoDto,
+      producto,
+    });
+
+    return this.detallePedidoRepository.save(detallePedido);
   }
 
-  listarTodos() {
-    return this.detalleRepo.find();
+  async findAll(): Promise<DetallePedido[]> {
+    return this.detallePedidoRepository.find({
+      relations: ['pedido', 'producto'],
+    });
   }
 
-  buscarPorId(id: number) {
-    return this.detalleRepo.findOneBy({ id_detalle: id });
+  async findOne(id: number): Promise<DetallePedido> {
+    const detallePedido = await this.detallePedidoRepository.findOne({
+      where: { id_detalle_pedido: id },
+      relations: ['pedido', 'producto'],
+    });
+
+    if (!detallePedido) {
+      throw new NotFoundException(`Detalle de pedido con ID ${id} no encontrado`);
+    }
+
+    return detallePedido;
   }
 
-  actualizar(id: number, datos: Partial<DetallePedido>) {
-    return this.detalleRepo.update(id, datos);
+  async findByPedido(pedidoId: number): Promise<DetallePedido[]> {
+    return this.detallePedidoRepository.find({
+      where: { id_pedido: pedidoId },
+      relations: ['producto'],
+    });
   }
 
-  eliminar(id: number) {
-    return this.detalleRepo.delete(id);
+  async remove(id: number): Promise<void> {
+    const detallePedido = await this.findOne(id);
+    await this.detallePedidoRepository.remove(detallePedido);
   }
 }

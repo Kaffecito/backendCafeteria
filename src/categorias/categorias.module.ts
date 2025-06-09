@@ -10,3 +10,5 @@ import { Categoria } from './categoria.entity';
   controllers: [CategoriasController]
 })
 export class CategoriasModule {}
+
+//importo los modulos necesarios para que funcione
