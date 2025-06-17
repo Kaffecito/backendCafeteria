@@ -16,6 +16,7 @@ async function bootstrap() {
 
   // Habilitar CORS
   app.enableCors();
+  
 
   // Configuración de límites de payload
   app.use(json({ limit: '50mb' }));

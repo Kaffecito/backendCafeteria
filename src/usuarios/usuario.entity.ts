@@ -4,6 +4,7 @@ import { IsString, IsEnum, IsDate, Length } from 'class-validator';
 import { Pedido } from '../pedidos/pedido.entity';
 
 export enum RolUsuario {
+  SUPER_ADMIN = 'super_admin',
   ADMIN = 'admin',
   MESERO = 'mesero',
   CAJERA = 'cajera'

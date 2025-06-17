@@ -29,6 +29,11 @@ export class RolesGuard implements CanActivate {
       return false;
     }
 
+    // Si el usuario es SUPER_ADMIN, tiene acceso total
+    if (userRole === RolUsuario.SUPER_ADMIN.toLowerCase()) {
+      return true;
+    }
+
     // Convertir los roles requeridos a minúsculas para la comparación
     const hasRole = requiredRoles
       .map(role => role.toLowerCase())
