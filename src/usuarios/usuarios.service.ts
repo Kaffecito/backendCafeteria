@@ -5,6 +5,7 @@ import { Usuario } from './usuario.entity';
 import * as bcrypt from 'bcrypt';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { RolUsuario, EstadoUsuario } from './usuario.entity';
 
 @Injectable()
 export class UsuariosService {
@@ -111,5 +112,39 @@ export class UsuariosService {
     }
 
     return user;
+  }
+
+  async createSuperAdmin(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
+    // Verificar si ya existe un super admin
+    const existingSuperAdmin = await this.usuarioRepository.findOne({
+      where: { rol_usuario: RolUsuario.SUPER_ADMIN }
+    });
+
+    if (existingSuperAdmin) {
+      throw new ConflictException('Ya existe un super admin en el sistema');
+    }
+
+    // Verificar si ya existe un usuario con la misma cédula
+    const existingUser = await this.findOneByCedula(createUsuarioDto.cedula_usuario);
+    if (existingUser) {
+      throw new ConflictException('Ya existe un usuario con esta cédula');
+    }
+
+    // Forzar el rol a SUPER_ADMIN
+    const superAdminData = {
+      ...createUsuarioDto,
+      rol_usuario: RolUsuario.SUPER_ADMIN,
+      estado_usuario: EstadoUsuario.ACTIVO
+    };
+
+    // Hash de la contraseña
+    const hashedPassword = await bcrypt.hash(superAdminData.password_usuario, 10);
+    
+    const superAdmin = this.usuarioRepository.create({
+      ...superAdminData,
+      password_usuario: hashedPassword,
+    });
+
+    return this.usuarioRepository.save(superAdmin);
   }
 }
