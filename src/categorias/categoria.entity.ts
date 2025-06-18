@@ -21,6 +21,11 @@ export class Categoria {
   @IsString()
   descripcion_categoria: string;  //breve descripcion de la categoria, puede o no ingresar es opcional
 
+  @ApiProperty({ description: 'URL de la imagen de la categoría', example: 'https://ejemplo.com/imagen-categoria.jpg' })
+  @Column({ nullable: true })
+  @IsString()
+  imagen_categoria: string; //imagen de la categoria, puede ser opcional
+
   @OneToMany(() => Producto, producto => producto.categoria)
   productos: Producto[];
 }

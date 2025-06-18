@@ -9,6 +9,7 @@ import { Roles } from '../auth/roles.decorator';
 import { RolUsuario } from './usuario.entity';
 
 @ApiTags('usuarios')
+@ApiBearerAuth()
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}

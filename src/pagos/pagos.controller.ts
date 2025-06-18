@@ -16,7 +16,7 @@ export class PagosController {
   constructor(private readonly pagosService: PagosService) {}
 
   @Post(':idPedido')
-  @Roles(Role.ADMIN, Role.CAJERO)
+  @Roles(Role.ADMIN, Role.CAJERO, Role.CAJERA)
   @ApiOperation({ 
     summary: 'Procesar un nuevo pago para un pedido',
     description: 'Registra el pago de un pedido. Para pagos en efectivo, calcula automáticamente el vuelto basado en el monto recibido.'
@@ -49,7 +49,7 @@ export class PagosController {
   }
 
   @Get('pedido/:idPedido')
-  @Roles(Role.ADMIN, Role.CAJERO)
+  @Roles(Role.ADMIN, Role.CAJERO, Role.CAJERA)
   @ApiOperation({ summary: 'Obtener pagos de un pedido específico' })
   @ApiResponse({
     status: 200,

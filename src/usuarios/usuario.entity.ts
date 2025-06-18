@@ -7,6 +7,7 @@ export enum RolUsuario {
   SUPER_ADMIN = 'super_admin',
   ADMIN = 'admin',
   MESERO = 'mesero',
+  CAJERO = 'cajero',
   CAJERA = 'cajera'
 }
 

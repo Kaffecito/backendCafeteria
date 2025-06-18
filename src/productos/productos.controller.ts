@@ -34,12 +34,54 @@ export class ProductosController {
 
   @Post()
   @Roles(RolUsuario.ADMIN)
-  @ApiOperation({ summary: 'Crear un nuevo producto' })
+  @UseInterceptors(
+    FileInterceptor('imagen', {
+      storage: diskStorage({
+        destination: './uploads/productos',
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          return cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+          return cb(new BadRequestException('Solo se permiten archivos de imagen'), false);
+        }
+        cb(null, true);
+      },
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        nombre_producto: { type: 'string', example: 'Café Americano' },
+        descripcion_producto: { type: 'string', example: 'Café negro con agua caliente' },
+        precio_producto: { type: 'number', example: 2.5 },
+        stock_producto: { type: 'number', example: 100 },
+        id_categoria: { type: 'number', example: 1 },
+        imagen: { type: 'string', format: 'binary', description: 'Imagen del producto (opcional)' },
+      },
+      required: ['nombre_producto', 'descripcion_producto', 'precio_producto', 'stock_producto', 'id_categoria'],
+    },
+  })
+  @ApiOperation({ summary: 'Crear un nuevo producto (con imagen opcional)' })
   @ApiResponse({ status: 201, description: 'Producto creado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos inválidos' })
   @ApiResponse({ status: 403, description: 'No autorizado' })
-  async create(@Body() createProductoDto: CreateProductoDto) {
-    return this.productosService.create(createProductoDto);
+  async create(
+    @Body() createProductoDto: CreateProductoDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    let imagen_url: string | undefined = undefined;
+    if (file) {
+      imagen_url = file.filename;
+    }
+    return this.productosService.create({ ...createProductoDto, imagen_url });
   }
 
   @Post('upload/:id')
