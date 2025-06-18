@@ -11,4 +11,9 @@ export class CreateCategoriaDto {
   @IsString()
   @IsOptional()
   descripcion_categoria?: string;
+
+  @ApiProperty({ description: 'URL de la imagen de la categoría', example: 'https://ejemplo.com/imagen-categoria.jpg', required: false })
+  @IsString()
+  @IsOptional()
+  imagen_categoria?: string;
 } 
