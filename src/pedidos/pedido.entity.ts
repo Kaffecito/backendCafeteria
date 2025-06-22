@@ -1,7 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsNotEmpty } from 'class-validator';
-import { Usuario } from '../usuarios/usuario.entity';
 import { DetallePedido } from '../detalle-pedido/detalle-pedido.entity';
 
 export enum EstadoPedido {
@@ -19,8 +18,6 @@ export class Pedido {
 
   @ApiProperty({ description: 'ID del usuario que realiza el pedido' })
   @Column()
-  @IsNumber()
-  @IsNotEmpty()
   id_usuario: number;
 
   @ApiProperty({ description: 'Fecha y hora del pedido' })
@@ -44,10 +41,6 @@ export class Pedido {
   @ApiProperty({ description: 'Notas adicionales del pedido', required: false })
   @Column({ nullable: true })
   notas_pedido?: string;
-
-  @ManyToOne(() => Usuario)
-  @JoinColumn({ name: 'id_usuario' })
-  usuario: Usuario;
 
   @OneToMany(() => DetallePedido, detallePedido => detallePedido.pedido)
   detalles_pedido: DetallePedido[];

@@ -13,15 +13,18 @@ export class DetallePedidoService {
     private readonly productosService: ProductosService,
   ) {}
 
-  async create(createDetallePedidoDto: CreateDetallePedidoDto): Promise<DetallePedido> {
-    const producto = await this.productosService.findOne(createDetallePedidoDto.id_producto);
+  async create(createDetallePedidoDto: CreateDetallePedidoDto): Promise<any> {
+    await this.productosService.findOne(createDetallePedidoDto.id_producto);
     
-    const detallePedido = this.detallePedidoRepository.create({
-      ...createDetallePedidoDto,
-      producto,
-    });
-
-    return this.detallePedidoRepository.save(detallePedido);
+    const detalleParaInsertar = {
+      id_pedido: createDetallePedidoDto.id_pedido,
+      id_producto: createDetallePedidoDto.id_producto,
+      cantidad_producto: createDetallePedidoDto.cantidad_producto,
+      precio_unitario_producto: createDetallePedidoDto.precio_unitario_producto,
+      nota_producto: createDetallePedidoDto.nota_producto,
+    };
+    
+    return this.detallePedidoRepository.insert(detalleParaInsertar);
   }
 
   async findAll(): Promise<DetallePedido[]> {

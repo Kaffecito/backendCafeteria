@@ -20,7 +20,7 @@ export class PedidosService {
     private readonly clientesService: ClientesService,
   ) {}
 
-  async create(createPedidoDto: CreatePedidoDto): Promise<Pedido> {
+  async create(createPedidoDto: CreatePedidoDto, id_usuario: number): Promise<Pedido> {
     // Si no hay id_cliente pero hay información de nuevo cliente, crear el cliente
     if (!createPedidoDto.id_cliente && createPedidoDto.cliente_nuevo) {
       const nuevoCliente = await this.clientesService.crear({
@@ -55,14 +55,14 @@ export class PedidosService {
     }
 
     // Crear el pedido con el total calculado
-    const pedido = this.pedidoRepository.create({
-      ...createPedidoDto,
+    const nuevoPedido = this.pedidoRepository.create({
+      id_usuario,
       total_pedido: totalPedido,
-      estado_pedido: EstadoPedido.PENDIENTE
+      estado_pedido: EstadoPedido.PENDIENTE,
     });
     
     // Guardar el pedido
-    const pedidoGuardado = await this.pedidoRepository.save(pedido);
+    const pedidoGuardado = await this.pedidoRepository.save(nuevoPedido);
 
     // Crear los detalles del pedido
     for (const detalle of detallesConPrecios) {
@@ -78,14 +78,14 @@ export class PedidosService {
 
   async findAll(): Promise<Pedido[]> {
     return this.pedidoRepository.find({
-      relations: ['usuario', 'detalles_pedido', 'detalles_pedido.producto'],
+      relations: ['detalles_pedido', 'detalles_pedido.producto'],
     });
   }
 
   async findOne(id: number): Promise<Pedido> {
     const pedido = await this.pedidoRepository.findOne({
       where: { id_pedido: id },
-      relations: ['usuario', 'detalles_pedido', 'detalles_pedido.producto'],
+      relations: ['detalles_pedido', 'detalles_pedido.producto'],
     });
 
     if (!pedido) {

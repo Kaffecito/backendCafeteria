@@ -23,8 +23,7 @@ export class PedidosController {
   @ApiResponse({ status: 400, description: 'Datos inválidos o stock insuficiente' })
   @ApiResponse({ status: 403, description: 'No autorizado' })
   async create(@Req() req, @Body() createPedidoDto: CreatePedidoDto) {
-    createPedidoDto.id_usuario = req.user.id;
-    return this.pedidosService.create(createPedidoDto);
+    return this.pedidosService.create(createPedidoDto, req.user.sub);
   }
 
   @Get()

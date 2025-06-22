@@ -5,10 +5,6 @@ import { CreateDetallePedidoDto } from '../../detalle-pedido/dto/create-detalle-
 import { CreateClienteDto } from '../../clientes/dto/create-cliente.dto';
 
 export class CreatePedidoDto {
-  @ApiProperty({ description: 'ID del usuario que crea el pedido' })
-  @IsNumber()
-  id_usuario: number;
-
   @ApiProperty({ 
     description: 'ID del cliente existente. Si no se proporciona, se creará un nuevo cliente con la información en cliente_nuevo', 
     required: false,

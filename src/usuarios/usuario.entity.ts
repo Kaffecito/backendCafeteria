@@ -70,7 +70,4 @@ export class Usuario {
   })
   @IsEnum(EstadoUsuario)
   estado_usuario: EstadoUsuario;
-
-  @OneToMany(() => Pedido, pedido => pedido.usuario)
-  pedidos: Pedido[];
 }
